@@ -1,0 +1,329 @@
+<div ng-controller="lecturer_ctl">
+	<div>
+		<div class="container">
+			<div class="row">
+				<h2 class="sub-header">List of Lecturers</h2>
+				<div class="form-group">
+					<button class="btn btn-primary " data-toggle="modal" data-target="#myModalAdd"><span class="glyphicon glyphicon-plus"></span>Add</button>
+				</div>
+			</div>
+		</div>
+		<table id="data_table" class="display text-center" width="100%" cellspacing="0">
+			<thead>
+				<tr>
+					<th class="text-center">No.</th>
+					<th class="text-center">User ID</th>
+					<th class="text-center">Last Name</th>
+					<th class="text-center">First Name</th>
+					<th class="text-center">Phone</th>
+					<th class="text-center">Degree</th>
+					<th class="text-center">Description</th>
+					<th class="text-center">Major</th>
+					<th class="text-center">Email</th>
+					<th class="text-center">Status</th>
+					<th class="text-center"></th>
+				</tr>
+			</thead>
+
+			<tfoot>
+				<tr>
+					<th class="text-center">No.</th>
+					<th class="text-center">User ID</th>
+					<th class="text-center">Last Name</th>
+					<th class="text-center">First Name</th>
+					<th class="text-center">Phone</th>
+					<th class="text-center">Degree</th>
+					<th class="text-center">Description</th>
+					<th class="text-center">Major</th>
+					<th class="text-center">Email</th>
+					<th class="text-center">Status</th>
+					<th class="text-center"></th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+
+
+
+
+	<!-- modal add -->
+	<div class="modal fade container " id="myModalAdd" role="dialog">
+		<div class="modal-dialog ">
+
+			<!-- Modal content-->
+			<div class="alert alert-success" ng-if="visibility==true">
+				<strong>Success!</strong> You have successfully added member code: <b>{{code_lec}}</b>, name <b>{{lastname}}&nbsp;{{firstname}}</b>.
+			</div>
+			<form name="add" novalidate>
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Add Lecturer</h4>
+						<img src="images/image_add.jpg">
+					</div>
+					<div class="modal-body row">
+						<div class="form-group col-xs-12 col-sm-6 col-md-6" ng-directive="strongSecret">
+							<label>Lecturer Code</label>
+							<div>
+								<input style="width:95%; float:left" type="text" class="form-control" id="UserID" ng-model="lecturer.code_lec" maxlength="10"
+									name="strongSecret" strong-secret required><span style="color:red">&nbsp;&#42;</span>
+									<ul class="error-msgs">
+										<li ng-show="exiss">User Code Exist</li>
+										<li ng-show="require">Please enter into!</li>
+									</ul>
+									<ul class="error-msgs" ng-messages="add.strongSecret.$error" ng-if="add.$submitted || add.strongSecret.$dirty">
+										<li ng-message="invalid">Input must be valid</li>
+										<li ng-message="normal">Input must be a-z or A-Z or 0-9 or letter " - " </li>
+										<li ng-message="threeCharactersValidator">Strong secret has to least 3 characters long</li>
+										<li ng-message="validnormal">Add letter after letter "-"</li>
+									</ul>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Last Name</label>
+							<div>
+								<input style="width:95%; float:left" type="text" class="form-control" id="LastName" ng-model="lecturer.lastname" name="strongSecret1"
+									required><span style="color:red">&nbsp;&#42;</span>
+									<ul class="error-msgs" ng-messages="add.strongSecret1.$error" ng-if="add.$submitted || add.strongSecret1.$dirty">
+										<li ng-show="required1">Please enter into!</li>
+									</ul>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>First Name</label>
+							<div>
+								<input style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="lecturer.firstname" name="strongSecret2"
+									required><span style="color:red">&nbsp;&#42;</span>
+									<ul class="error-msgs" ng-messages="add.strongSecret2.$error" ng-if="add.$submitted || add.strongSecret2.$dirty">
+										<li ng-show="required2">Please enter into!</li>
+									</ul>
+							</div>
+						</div>
+						
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Major</label>
+							<div>
+								<input style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="lecturer.major" name="strongSecret2"
+									required><span style="color:red">&nbsp;&#42;</span>
+									<ul class="error-msgs" ng-messages="add.strongSecret2.$error" ng-if="add.$submitted || add.strongSecret2.$dirty">
+										<li ng-show="required2">Please enter into!</li>
+									</ul>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">						
+								<label>Degree</label>
+							<div>
+							  <select ng-model="editlecturer.degree">
+								  <option value="Bachelor" >Bachelor</option>
+								  <option value="Master">Master</option>
+								  <option  value="Doctor">Doctor</option>
+								</select><span style="color:red">&nbsp;&#42;</span>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Phone</label>
+							<div>
+								<input style="width:95%; float:left" type="text" name='phone' class="form-control" ng-pattern="/^[0-9]+$/" id="Phone"
+									ng-model="lecturer.phone"><span style="color:red">&nbsp;</span>
+									<ul class="error-msgs" ng-if="add.phone.$dirty && add.phone.$invalid">
+										<li>Please enter into number!</li>
+									</ul>
+							</div>
+						</div>
+
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+								<label>Description</label>
+								<textarea style="width:95%" class="form-control" rows="3" id="description_Add" ng-model="lecturer.description"></textarea>
+						</div>
+
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Email</label>
+							<div><input style="width:95%; float:left" type="email" class="form-control" id="Email" ng-model="lecturer.email"><span
+									style="color:red">&nbsp;</span></div>
+						</div>
+						
+
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary" ng-click="addLecturer()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+
+
+	<!-- modal edit -->
+
+	<div class="modal fade container " id="myModalEdit" role="dialog">
+		<div class="modal-dialog ">
+
+			<!-- Modal content-->
+			<form name="edit" novalidate>
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Update Lecturer</h4>
+						<img src="images/image_add.jpg">
+					</div>
+					<div class="modal-body row">
+						<div class="form-group col-xs-12 col-sm-6 col-md-6" ng-directive="strongSecret">
+							<label>Lecturer Code</label>
+							<div>
+								<input style="width:95%; float:left" type="text" class="form-control" id="UserID" ng-model="editlecturer.code_lec" maxlength="10"
+									name="strongSecret" strong-secret required><span style="color:red">&nbsp;&#42;</span>
+									<ul class="error-msgs">
+										<li ng-show="exiss">User Code Exist</li>
+										<li ng-show="require">Please enter into!</li>
+									</ul>
+									<ul class="error-msgs" ng-messages="add.strongSecret.$error" ng-if="add.$submitted || add.strongSecret.$dirty">
+										<li ng-message="invalid">Input must be valid</li>
+										<li ng-message="normal">Input must be a-z or A-Z or 0-9 or letter " - " </li>
+										<li ng-message="threeCharactersValidator">Strong secret has to least 3 characters long</li>
+										<li ng-message="validnormal">Add letter after letter "-"</li>
+									</ul>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Last Name</label>
+							<div>
+								<input style="width:95%; float:left" type="text" class="form-control" id="LastName" ng-model="editlecturer.lastname" name="strongSecret1"
+									required><span style="color:red">&nbsp;&#42;</span>
+									<ul class="error-msgs" ng-messages="add.strongSecret1.$error" ng-if="add.$submitted || add.strongSecret1.$dirty">
+										<li ng-show="required1">Please enter into!</li>
+									</ul>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>First Name</label>
+							<div>
+								<input style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="editlecturer.firstname" name="strongSecret2"
+									required><span style="color:red">&nbsp;&#42;</span>
+									<ul class="error-msgs" ng-messages="add.strongSecret2.$error" ng-if="add.$submitted || add.strongSecret2.$dirty">
+										<li ng-show="required2">Please enter into!</li>
+									</ul>
+							</div>
+						</div>
+					
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Major</label>
+							<div>
+								<input style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="editlecturer.major" name="strongSecret2"
+									required><span style="color:red">&nbsp;&#42;</span>
+									<ul class="error-msgs" ng-messages="add.strongSecret2.$error" ng-if="add.$submitted || add.strongSecret2.$dirty">
+										<li ng-show="required2">Please enter into!</li>
+									</ul>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							
+								<label>Degree</label>
+							<div>
+							  <select ng-value="editlecturer.degree"  ng-model="editlecturer.degree">
+								  <option  value="Bachelor">Bachelor</option>
+								  <option value="Master">Master</option>
+								  <option  value="Doctor">Doctor</option>
+								</select><span style="color:red">&nbsp;&#42;</span>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Phone</label>
+							<div>
+								<input style="width:95%; float:left" type="text" name='phone' class="form-control" ng-pattern="/^[0-9]+$/" id="Phone"
+									ng-model="editlecturer.phone"><span style="color:red">&nbsp;</span>
+									<ul class="error-msgs" ng-if="add.phone.$dirty && add.phone.$invalid">
+										<li>Please enter into number!</li>
+									</ul>
+							</div>
+						</div>
+
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+								<label>Description</label>
+								<textarea style="width:95%" class="form-control" rows="3" id="description_Add" ng-model="editlecturer.description"></textarea>
+						</div>
+
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Email</label>
+							<div><input style="width:95%; float:left" type="email" class="form-control" id="Email" ng-model="editlecturer.email"><span
+									style="color:red">&nbsp;</span></div>
+						</div>
+						
+
+
+
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label style="display:block">Select status</label>
+							<form>
+								<label class="radio-inline">
+											<input type="radio"  name ="status_Edit" value="1"  ng-model="editlecturer.status_lec" ng-checked="editlecturer.user_status==1">
+											Active
+								</label>
+								<label class="radio-inline">
+											<input type="radio"  name ="status_Edit" value="0" ng-model="editlecturer.status_lec" ng-checked="editlecturer.user_status==0">
+											Inactive
+
+								</label>
+							</form>
+						</div>
+
+
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-warning" ng-click="updatelecturer()"><span class="glyphicon glyphicon-edit"></span>Update</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+
+
+	<!-- modal confirm -->
+	<div class="container">
+		<div class="modal fade" id="myModalConfirm" role="dialog">
+			<div class="modal-dialog modal-sm">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-header">
+
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">ARE YOU SURE</h4>
+
+					</div>
+
+					<div class="modal-body">
+						<p>Do you want to remove data?</p>
+					</div>
+
+					<div class="modal-footer">
+
+						<button style="color: blue" onMouseOver="this.style.background='#CB3D39'" onMouseOut="this.style.background='#F0F0F0'" type="button"
+							class="btn" data-dismiss="modal" ng-click='remove()'>Yes</button>
+							<button style="color: blue" onMouseOver="this.style.background='#CB3D39'" onMouseOut="this.style.background='#F0F0F0'" type="button"
+								class="btn" data-dismiss="modal">No</button>
+
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="myModalmessage" role="dialog">
+		<div class="modal-dialog modal-sm">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 class="modal-title text-center">{{message}}</h4>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+
+</div>

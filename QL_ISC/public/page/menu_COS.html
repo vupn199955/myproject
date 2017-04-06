@@ -1,0 +1,173 @@
+<div ng-controller="cos_controller">
+    <div class="container">
+        <div class="row">
+            <h2 class="sub-header">Course Of Specializations</h2>
+            <div class="form-group">
+                <button class="btn btn-primary " data-toggle="modal" data-target="#myModalAdd"><span class="glyphicon glyphicon-plus"></span>Add</button>
+            </div>
+        </div>
+    </div>
+    <table id="data_table" class="table table-hover" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Code</th>
+                <th>Specialization Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th></th>
+
+            </tr>
+        </thead>
+
+        <tfoot>
+            <tr>
+                <th>No.</th>
+                <th>Code</th>
+                <th>Specialization Name</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+
+
+
+
+    <!-- modal ADD -->
+    <div class="container">
+        <!-- Modal Add content-->
+        <div class="modal fade container " id="myModalAdd" role="dialog">
+            <div class="modal-dialog ">
+                <!-- Modal content-->
+
+                <form name="frmAdd" novalidate>
+
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add</h4>
+                        </div>
+
+                        <div class="modal-body row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Specialization</label>
+                                    <select class="form-control" ng-model="data_spec">
+                                            <option value=""> Select Specialization</option>
+                                            <option ng-repeat="cth in CTH_list1" value="{{cth.pro_code}}">{{cth.pro_name}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Course</label>
+                                    <div style="max-height:150px; overflow: auto;">
+                                        <div class="checkbox" ng-repeat="mh in MH_list">
+                                            <label> <input type="checkbox" ng-click="check($index)" data-check="false" id="{{mh.dis_code}}" value="{{mh.dis_code}}"> {{mh.dis_name}} </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary" ng-click="add()"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- modal Edit -->
+    <div class="container">
+        <div class="modal fade container " id="myModalEdit" role="dialog">
+            <div class="modal-dialog ">
+
+                <!-- Modal content-->
+                <form name="edit" novalidate>
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Update</h4>
+                        </div>
+
+                        <div class="modal-body row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Specialization</label>
+                                    <input class="form-control" ng-model="edit.pro_name" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Course</label>
+                                    <div style="max-height:150px; overflow: auto;">
+                                        <div class="checkbox" ng-repeat="mh in MH_list">
+                                            <label> <input type="checkbox" ng-click="check_update($index)" data-check="false" id="{{mh.dis_code+1}}" value="{{mh.dis_code}}"> {{mh.dis_name}} </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-warning" ng-click="update()"><span class="glyphicon glyphicon-edit"></span>Update</button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- modal confirm -->
+    <div class="container">
+        <div class="modal fade" id="myModalConfirm" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">ARE YOU SURE</h4>
+
+                    </div>
+
+                    <div class="modal-body">
+                        <p>Do you want to remove data?</p>
+                    </div>
+
+                    <div class="modal-footer">
+
+                        <button style="color: blue" onMouseOver="this.style.background='#CB3D39'" onMouseOut="this.style.background='#F0F0F0'" type="button"
+                            class="btn" data-dismiss="modal" ng-click='remove()'>Yes</button>
+                        <button style="color: blue" onMouseOver="this.style.background='#CB3D39'" onMouseOut="this.style.background='#F0F0F0'" type="button"
+                            class="btn" data-dismiss="modal">No</button>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="myModalmessage" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-body">
+                    <h4 class="modal-title text-center">{{message}}</h4>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</div>
