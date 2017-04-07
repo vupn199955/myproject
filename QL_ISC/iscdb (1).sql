@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 29, 2017 at 04:48 AM
+-- Generation Time: Apr 07, 2017 at 11:11 AM
 -- Server version: 10.1.19-MariaDB
 -- PHP Version: 5.6.28
 
@@ -125,13 +125,13 @@ CREATE TABLE `decentralization` (
 --
 
 INSERT INTO `decentralization` (`decen_id`, `user_code`, `access_id`, `status`) VALUES
-(49, 'ISC1-001', '4', 1),
-(50, 'ISC2-001', '4', 1),
 (51, 'tu123', '1', 1),
 (52, 'tu123', '1', 1),
-(53, 'ISC1-002', '1', 1),
-(54, 'ISC1-002', '2', 1),
-(55, 'ISC1-002', '4', 1);
+(56, 'ISC1-002', '1', 1),
+(57, 'ISC1-002', '2', 1),
+(58, 'ISC1-002', '4', 1),
+(60, 'ISC1-001', '4', 1),
+(61, 'ISC2-001', '4', 1);
 
 -- --------------------------------------------------------
 
@@ -177,6 +177,15 @@ CREATE TABLE `discipline_of_study_program` (
   `description` text COLLATE utf8_unicode_ci,
   `status_dosp` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `discipline_of_study_program`
+--
+
+INSERT INTO `discipline_of_study_program` (`id_dosp`, `pro_code`, `dis_code`, `description`, `status_dosp`) VALUES
+(1, 'AND', 'G03', NULL, 1),
+(2, 'AND', 'G02', NULL, 1),
+(3, 'AND', 'G06', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -238,6 +247,29 @@ CREATE TABLE `log` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `profile_of_student`
+--
+
+CREATE TABLE `profile_of_student` (
+  `id` int(11) NOT NULL,
+  `user_code` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `id_profile` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `profile_of_student`
+--
+
+INSERT INTO `profile_of_student` (`id`, `user_code`, `id_profile`) VALUES
+(9, 'ISC1-001', 5),
+(10, 'ISC1-001', 6),
+(11, 'ISC2-001', 5),
+(12, 'ISC2-001', 6),
+(13, 'ISC2-001', 7);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `students`
 --
 
@@ -252,6 +284,15 @@ CREATE TABLE `students` (
   `user_code` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
   `int_code` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `students`
+--
+
+INSERT INTO `students` (`id_stu`, `code_stu`, `birthday`, `major`, `image`, `univer_code`, `id_ss`, `user_code`, `int_code`) VALUES
+(4, 'ISC01-17-0-0001', '0000-00-00', 'Khoa học máy tính', 'undefined', 'BUH', 12359, 'ISC1-001', 'ISC01'),
+(5, 'ISC01-17-0-0002', '2017-04-03', 'Ddd', 'undefined', 'BUH', 12359, 'ISC1-002', 'ISC01'),
+(7, 'ISC01-17-1-0003', '0000-00-00', 'sdf', 'undefined', 'BUH', 12358, 'ISC2-001', 'ISC01');
 
 -- --------------------------------------------------------
 
@@ -271,8 +312,9 @@ CREATE TABLE `student_profile` (
 --
 
 INSERT INTO `student_profile` (`id_profile`, `code_profile`, `name_profile`, `status_profile`) VALUES
-(2, 'thanhnamsd', '123123', 0),
-(4, 'tuoitre', '.vn', 1);
+(5, 'GKS', 'Giấy khai sinh', 1),
+(6, 'CMND', 'CMND', 1),
+(7, 'HKK', 'Hộ khẩu', 1);
 
 -- --------------------------------------------------------
 
@@ -291,9 +333,9 @@ CREATE TABLE `student_status` (
 --
 
 INSERT INTO `student_status` (`id_ss`, `code_ss`, `name_ss`) VALUES
-(12354, '123', 'wesdf'),
-(12355, '1234', 'rrrr'),
-(12357, '565656', '565656');
+(12358, 'DHH', 'Đang học'),
+(12359, 'BHH', 'Bỏ học'),
+(12360, 'HXX', 'Học song');
 
 -- --------------------------------------------------------
 
@@ -340,7 +382,7 @@ CREATE TABLE `university` (
 
 INSERT INTO `university` (`univer_id`, `univer_code`, `univer_name`, `univer_address`, `contact`, `status`) VALUES
 (116, 'BUH', 'Ngân Hàng', 'TP Hồ Chí Minh', '', 1),
-(117, 'DHCN4', 'Trường Đại Học Công Nghiệp 4 thành phố Hồ Chí Minh', '123 Gò Vấp', '- Nguyễn Văn An\n- Trần Văn Long', 0);
+(117, 'DHCN4', 'Trường Đại Học Công Nghiệp 4 thành phố Hồ Chí Minh', '123 Gò Vấp', '- Nguyễn Văn An\n- Trần Văn Long', 1);
 
 -- --------------------------------------------------------
 
@@ -368,8 +410,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_code`, `firstname`, `lastname`, `phone`, `email`, `gender`, `useraddress`, `username`, `password`, `status`, `univer_code`) VALUES
-(7, 'ISC1-002', 'Quốc Tú', 'Lê', 123123213, 'tu.it@gmail.com', 0, 'Vĩnh Long', 'tu123', '123123', 0, NULL),
-(8, 'ISC1-001', 'Ngọc Vũ', 'Phạm', 123123121, 'vupn199955@gmail.com', 0, 'Bình Dương', 'vupn199955', 'ngocvu12', 1, NULL),
+(7, 'ISC1-002', 'Quốc Tú', 'Lê', 123123213, 'tu.it@gmail.com', 1, 'Vĩnh Long', 'tu123', '123123', 1, NULL),
+(8, 'ISC1-001', 'Ngọc Vũ', 'Phạm', 123123121, 'vupn199955@gmail.com', 1, 'Bình Dương', 'vupn199955', 'ngocvu12', 1, NULL),
 (9, 'ISC2-001', 'Văn Dũng', 'Nguyễn', 123123123, 'dung@gmail.com', 0, 'adasdasd', 'dung123', '123123', 1, NULL),
 (10, 'tu123', 'Tú', 'Nguyễn Văn', 2147483647, 'tu@gmail.com', 0, '1325', 'tu1238', '123abc', 1, NULL);
 
@@ -449,6 +491,14 @@ ALTER TABLE `log`
   ADD PRIMARY KEY (`log_id`);
 
 --
+-- Indexes for table `profile_of_student`
+--
+ALTER TABLE `profile_of_student`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_code` (`user_code`),
+  ADD KEY `id_profile` (`id_profile`);
+
+--
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
@@ -523,7 +573,7 @@ ALTER TABLE `company`
 -- AUTO_INCREMENT for table `decentralization`
 --
 ALTER TABLE `decentralization`
-  MODIFY `decen_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `decen_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 --
 -- AUTO_INCREMENT for table `discipline`
 --
@@ -533,7 +583,7 @@ ALTER TABLE `discipline`
 -- AUTO_INCREMENT for table `discipline_of_study_program`
 --
 ALTER TABLE `discipline_of_study_program`
-  MODIFY `id_dosp` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_dosp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `intake`
 --
@@ -550,20 +600,25 @@ ALTER TABLE `lecturers`
 ALTER TABLE `log`
   MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT;
 --
+-- AUTO_INCREMENT for table `profile_of_student`
+--
+ALTER TABLE `profile_of_student`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `id_stu` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_stu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `student_profile`
 --
 ALTER TABLE `student_profile`
-  MODIFY `id_profile` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_profile` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `student_status`
 --
 ALTER TABLE `student_status`
-  MODIFY `id_ss` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12358;
+  MODIFY `id_ss` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12361;
 --
 -- AUTO_INCREMENT for table `study_program`
 --
@@ -601,6 +656,13 @@ ALTER TABLE `discipline_of_study_program`
 --
 ALTER TABLE `lecturers`
   ADD CONSTRAINT `lecturers_ibfk_1` FOREIGN KEY (`user_code`) REFERENCES `users` (`user_code`);
+
+--
+-- Constraints for table `profile_of_student`
+--
+ALTER TABLE `profile_of_student`
+  ADD CONSTRAINT `profile_of_student_ibfk_1` FOREIGN KEY (`user_code`) REFERENCES `students` (`user_code`),
+  ADD CONSTRAINT `profile_of_student_ibfk_2` FOREIGN KEY (`id_profile`) REFERENCES `student_profile` (`id_profile`);
 
 --
 -- Constraints for table `students`
