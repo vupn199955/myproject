@@ -3,10 +3,6 @@ var app = express();
 var bodyParser = require('body-parser');
 
 app.use(express.static(__dirname + "/public"));
-// var d = new Date().getFullYear() + '';
-// var dd = d.substring(2,4);
-// console.log(dd);
-// console.log('00'+dd);
 app.use(require('./routes/truonghoc'));
 app.use(require('./routes/thanhvien'));
 app.use(require('./routes/phanquyen'));

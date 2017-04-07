@@ -1,4 +1,12 @@
 app.controller('students_ctl', ['$scope', '$http', '$window', '$compile', '$timeout', function ($scope, $http, $window, $compile, $timeout) {
+	$scope.student = {
+		student: '',
+		intake: '',
+		status_code: '',
+		univer_code: '',
+		birthday: '',
+		major: ''
+	};
 	var refresh = function () {
 		$http({
 			method: 'GET',
@@ -69,9 +77,9 @@ app.controller('students_ctl', ['$scope', '$http', '$window', '$compile', '$time
 			"rowId": "code_stu",
 			"aoColumns": [
 				{ "data": "No", "sWidth": "5%" },
-				{ "data": "code_stu", "sClass": "text" },
-				{ "data": "lastname", "sClass": "text" },
-				{ "data": "firstname", "sClass": "text" },
+				{ "data": "code_stu", "sClass": "text", "sWidth": "12%" },
+				{ "data": "lastname", "sClass": "text", "sWidth": "5%" },
+				{ "data": "firstname", "sClass": "text", "sWidth": "10%" },
 				{
 					"data": null, mRender: function (data, type, row) {
 						if (data.email == "undefined" || data.email == null) {
@@ -130,7 +138,6 @@ app.controller('students_ctl', ['$scope', '$http', '$window', '$compile', '$time
 			jQuery("#" + name).data("check", "true");
 			mang_profile.push(name);
 		}
-		console.log(mang_profile);
 	}
 
 	// enter keudown 
@@ -184,11 +191,38 @@ app.controller('students_ctl', ['$scope', '$http', '$window', '$compile', '$time
 
 	//them
 	$scope.addstudents = function () {
+		if ($scope.add.$invalid || $scope.add.$pattern) {
+			if ($scope.student.student == '') {
+				$scope.student1 = true;
+				$timeout(function () {
+					$scope.student1 = false;
+				}, 2000)
+			}
+			if ($scope.student.intake == '') {
+				$scope.student2 = true;
+				$timeout(function () {
+					$scope.student2 = false;
+				}, 2000)
+			}
+			if ($scope.student.status_code == '') {
+				$scope.student3 = true;
+				$timeout(function () {
+					$scope.student3 = false;
+				}, 2000)
+			}
+			return;
+		}
+		var gender;
+		for (var i = 0; i < $scope.students.length; i++) {
+			if ($scope.student.student == $scope.students[i].user_code) {
+				gender = $scope.students[i].gender;
+			}
+		}
 		var data = {
 			student: $scope.student,
-			profiles: mang_profile
+			profiles: mang_profile,
+			gender: gender
 		};
-		console.log(data);
 		$http.post('/student', data).then(function successCallback(response) {
 
 		}, function errorCallback(response) {
@@ -197,11 +231,60 @@ app.controller('students_ctl', ['$scope', '$http', '$window', '$compile', '$time
 		refresh();
 	}
 
-
 	//load form edit
 	$scope.editt = function (index) {
-		var toSelect = $scope.students_list[index];
-		$scope.editstudents = toSelect;
+		var code_edit = $scope.list_students[index].code_stu;
+
+		$http({
+			method: 'GET',
+			url: '/getstudent/' + code_edit
+		}).then(function successCallback(response) {
+
+			var student_rl = response.data.student;
+			$scope.profile_student = response.data.profile;
+
+			$scope.student_edit = {
+				user_code: student_rl[0].user_code,
+				birthday: '',
+				code_stu: student_rl[0].code_stu,
+				email: student_rl[0].email,
+				firstname: student_rl[0].firstname,
+				gender: '',
+				id_ss: student_rl[0].id_ss,
+				image: student_rl[0].image,
+				int_code: student_rl[0].int_code,
+				lastname: student_rl[0].lastname,
+				major: student_rl[0].major,
+				phone: student_rl[0].phone,
+				univer_code: student_rl[0].univer_code,
+				useraddress: student_rl[0].useraddress,
+				username: student_rl[0].username
+			};
+
+			$scope.student_edit.gender = student_rl[0].gender == 1 ? 'Nam' : 'Nữ';
+
+			var birthday = new Date(student_rl[0].birthday);
+			var date = birthday.getDate();
+			var month = birthday.getMonth() + 1;
+			var str = (month >= 10 ? month : "0" + month) + "/" + (date >= 10 ? date : "0" + date) + "/" + birthday.getFullYear();
+			$scope.student_edit.birthday = str;
+
+			for (var x = 0; x < $scope.student_profiles.length; x++) {
+				var name = $scope.student_profiles[x].id_profile;
+				jQuery("#" + name + "1").data("check", "false");
+				jQuery("#" + name + "1").prop('checked', false);
+			}
+			for (var i = 0; i < $scope.profile_student.length; i++) {
+				name = $scope.profile_student[i].id_profile;
+				jQuery("#" + name + "1").data("check", "true");
+				jQuery("#" + name + "1").prop('checked', true);
+			}
+
+			$('#select_ss').val(student_rl[0].id_ss);
+
+		}, function errorCallback(response) {
+		});
+
 		jQuery("#myModalEdit").on('hidden.bs.modal', function () {
 			$timeout(function () {
 				window.location.reload();
@@ -212,92 +295,33 @@ app.controller('students_ctl', ['$scope', '$http', '$window', '$compile', '$time
 
 	//sua
 	$scope.updatestudents = function () {
-		if ($scope.edit.$invalid || $scope.edit.$pattern) {
-			if ($scope.edit.strongSecret.$error.required) {
-
-				$scope.require = true;
-				$timeout(function () {
-					$scope.require = false;
-				}, 2000);
-			};
-			if ($scope.edit.strongSecret1.$error.required) {
-
-				$scope.required1 = true;
-				$timeout(function () {
-					$scope.required1 = false;
-				}, 2000);
-			}
-			if ($scope.edit.strongSecret2.$error.required) {
-
-				$scope.required2 = true;
-				$timeout(function () {
-					$scope.required2 = false;
-				}, 2000);
-			}
-			if ($scope.edit.strongSecret3.$error.required) {
-
-				$scope.required3 = true;
-				$timeout(function () {
-					$scope.required3 = false;
-				}, 2000);
-			}
-			if ($scope.edit.strongSecret4.$error.required) {
-
-				$scope.required4 = true;
-				$timeout(function () {
-					$scope.required4 = false;
-				}, 2000);
-			}
-			if ($scope.edit.strongSecret5.$error.required) {
-
-				$scope.required5 = true;
-				$timeout(function () {
-					$scope.required5 = false;
-				}, 2000);
-			}
-			return;
+		var update_stu = {
+			user_code: $scope.student_edit.user_code,
+			birthday: $scope.student_edit.birthday,
+			major: $scope.student_edit.major,
+			image: $scope.student_edit.image,
+			univer_code: $scope.student_edit.univer_code,
+			id_ss: $scope.student_edit.id_ss,
+			int_code: $scope.student_edit.int_code,
+		};
+		var array_profile = [];
+		for (var i = 0; i < $scope.student_profiles.length; i++) {
+			var name = $scope.student_profiles[i].id_profile;
+			if (jQuery("#" + name + "1").is(':checked') == true)
+				array_profile.push(name);
 		}
+		var data_update = {
+			student: update_stu,
+			profile: array_profile
+		};
 
-
-		for (var i = 0; i < $scope.thanhvien_list.length; i++) {
-			if ($scope.thanhvien_list[i].user_id != $scope.editthanhvien.user_id && angular.lowercase($scope.thanhvien_list[i].user_code) == angular.lowercase($scope.editthanhvien.user_code)) {
-				$scope.exiss = true;
-				refresh();
-				$timeout(function () {
-					$scope.exiss = false;
-				}, 3000);
-				return;
-			}
-		}
-		//var indata = { 'thanhvien': $scope.editthanhvien, 'roles': role_current };
-
-		$http.put('/menu_Users/' + $scope.editthanhvien.user_id, $scope.editthanhvien).then(function successCallback(response) {
-			for (var i = 0; i < $scope.thanhvien_list.length; i++) {
-				if ($scope.thanhvien_list[i].user_id == $scope.editthanhvien.user_id) {
-					$scope.thanhvien_list[i] = $scope.editthanhvien;
-				}
-			}
-			var dt = jQuery('#data_table').dataTable();
-			var row = jQuery("tr#" + $scope.editthanhvien.user_id);
-			dt.fnUpdate($scope.editthanhvien, row); // Row
-			dt.fnDraw();
-			$compile(document.getElementById('data_table'))($scope);
-			jQuery("#myModalmessage").on('hidden.bs.modal', function () {
-				window.location.reload();
-			});
-			jQuery("#myModalEdit").modal('hide');
+		$http.put('/student/' + $scope.student_edit.code_stu, data_update).then(function successCallback(response) {
 		}, function errorCallback(response) {
-
 		});
-
-		$http.put('/rolesUser/' + $scope.editthanhvien.user_code, role_current).then(function successCallback(response) {
-			var tr = jQuery('#' + index).closest('tr');
-			var dt = jQuery('#data_table').dataTable();
-			dt.fnDeleteRow(tr);
-			dt.fnDraw();
-		}, function errorCallback(response) {
-
+		jQuery("#myModalmessage").on('hidden.bs.modal', function () {
+			window.location.reload();
 		});
+		jQuery("#myModalEdit").modal('hide');
 		$scope.message = 'Update Successful';
 		jQuery("#myModalmessage").modal('show');
 		$timeout(function () { jQuery("#myModalmessage").modal('hide') }, 2000);

@@ -79,48 +79,43 @@
 								 	<option ng-repeat="stu in students" value="{{stu.user_code}}">{{stu.lastname}}&nbsp;{{stu.firstname}}&nbsp;--&nbsp;{{stu.username}}</option>
 								</select>
 							</div>
-							<ul class="error-msgs" ng-if="add.$submitted">
-								<li ng-show="student1">Please enter into!</li>
+							<ul class="error-msgs">
+								<li ng-show="student1" style="margin-top: 20px">Please enter into!</li>
 							</ul>
 						</div>
 
 						<div class="form-group col-xs-12 col-sm-6 col-md-6">
 							<label>Intake Student</label>
 							<div>
-								<select style="width:95%; float:left" ng-options="intake as intake.int_code for intake in list_intake track by intake.int_code"
-								 ng-model="student.intake" class="form-control">
+								<select style="width:95%; float:left" ng-model="student.intake" class="form-control">
 								 <option value="">--Select Intake--</option>
+								 <option ng-repeat="intake in list_intake" value="{{intake.int_code}}">{{intake.int_code}}</option>
 								</select>
 							</div>
+							<ul class="error-msgs">
+								<li ng-show="student2" style="margin-top: 20px">Please enter into!</li>
+							</ul>
 						</div>
 
 						<div class="form-group col-xs-12 col-sm-6 col-md-6">
 							<label>Status Student</label>
 							<div>
-								<select style="width:95%; float:left" ng-options="status as status.name_ss for status in student_status track by status.code_ss"
-								 ng-model="student.status_code" class="form-control">
+								<select style="width:95%; float:left" ng-model="student.status_code" class="form-control">
 								 <option value="">--Select Status--</option>
+								 <option ng-repeat="status in student_status" value="{{status.id_ss}}">{{status.name_ss}}</option>
 								</select>
 							</div>
-						</div>
-
-						<div class="form-group col-xs-12 col-sm-6 col-md-6">
-							<label>Gentle</label>
-							<div>
-								<input style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="students.gender" name="strongSecret2"
-								 required><span style="color:red">&nbsp;&#42;</span>
-								<ul class="error-msgs" ng-messages="add.strongSecret2.$error" ng-if="add.$submitted || add.strongSecret2.$dirty">
-									<li ng-show="required2">Please enter into!</li>
-								</ul>
-							</div>
+							<ul class="error-msgs">
+								<li ng-show="student3" style="margin-top: 20px">Please enter into!</li>
+							</ul>
 						</div>
 
 						<div class="form-group col-xs-12 col-sm-6 col-md-6">
 							<label>Birth Day</label>
 							<div>
 								<input style="width:95%; float:left" type="text" class="form-control" id="datepicker_Add" ng-model="student.birthday" name="strongSecret2"
-								 ng-pattern="/^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d+$/" required><span style="color:red">&nbsp;&#42;</span>
-								<ul class="error-msgs" ng-if="add.$submitted || add.strongSecret2.$dirty">
+								 ng-pattern="/^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d+$/"><span style="color:red">&nbsp;&#42;</span>
+								<ul class="error-msgs">
 									<li ng-show="date1">Format: MM/DD/YYYY</li>
 								</ul>
 							</div>
@@ -129,9 +124,9 @@
 						<div class="form-group col-xs-12 col-sm-6 col-md-6" ng-directive="strongSecret1">
 							<label>University Name</label>
 							<div>
-								<select style="width:95%; float:left" ng-options="univer as univer.univer_name for univer in list_university track by univer.univer_code"
-								 ng-model="student.univer_code" class="form-control">
+								<select style="width:95%; float:left" ng-model="student.univer_code" class="form-control">
 								 <option value="">--Select University--</option>
+								 <option ng-repeat="univer in list_university" value="{{univer.univer_code}}">{{univer.univer_name}}</option>
 								</select>
 							</div>
 						</div>
@@ -180,78 +175,62 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Update Lecturer</h4>
+						<h4 class="modal-title">Update Student</h4>
 						<img src="images/image_add.jpg">
 					</div>
 					<div class="modal-body row">
-						<div class="form-group col-xs-12 col-sm-6 col-md-6" ng-directive="strongSecret">
-							<label>Students Code</label>
-							<div>
-								<input style="width:95%; float:left" type="text" class="form-control" id="UserID" ng-model="editstudents.code_stu" maxlength="10"
-								 name="strongSecret" strong-secret required><span style="color:red">&nbsp;&#42;</span>
-								<ul class="error-msgs">
-									<li ng-show="exiss">User Code Exist</li>
-									<li ng-show="require">Please enter into!</li>
-								</ul>
-								<ul class="error-msgs" ng-messages="edit.strongSecret.$error" ng-if="edit.$submitted || edit.strongSecret.$dirty">
-									<li ng-message="invalid">Input must be valid</li>
-									<li ng-message="normal">Input must be a-z or A-Z or 0-9 or letter " - " </li>
-									<li ng-message="threeCharactersValidator">Strong secret has to least 3 characters long</li>
-									<li ng-message="validnormal">Add letter after letter "-"</li>
-								</ul>
-							</div>
-						</div>
 						<div class="form-group col-xs-12 col-sm-6 col-md-6">
 							<label>Last Name</label>
 							<div>
-								<input style="width:95%; float:left" type="text" class="form-control" id="LastName" ng-model="editstudents.lastname" name="strongSecret1"
-								 required><span style="color:red">&nbsp;&#42;</span>
-								<ul class="error-msgs" ng-messages="edit.strongSecret1.$error" ng-if="edit.$submitted || edit.strongSecret1.$dirty">
-									<li ng-show="required1">Please enter into!</li>
-								</ul>
+								<input disabled style="width:95%; float:left" type="text" class="form-control" id="LastName" ng-model="student_edit.lastname" name="strongSecret1"
+								 required>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6" ng-directive="strongSecret">
+							<label>Students Code</label>
+							<div>
+								<input disabled style="width:95%; float:left" type="text" class="form-control" id="UserID" ng-model="student_edit.code_stu" maxlength="10"
+								 name="strongSecret" strong-secret required>
 							</div>
 						</div>
 						<div class="form-group col-xs-12 col-sm-6 col-md-6">
 							<label>First Name</label>
 							<div>
-								<input style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="editstudents.firstname" name="strongSecret2"
-								 required><span style="color:red">&nbsp;&#42;</span>
-								<ul class="error-msgs" ng-messages="edit.strongSecret2.$error" ng-if="edit.$submitted || edit.strongSecret2.$dirty">
-									<li ng-show="required2">Please enter into!</li>
-								</ul>
+								<input disabled style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="student_edit.firstname" name="strongSecret2"
+								 required>
 							</div>
 						</div>
 
 						<div class="form-group col-xs-12 col-sm-6 col-md-6">
-							<label>Gentle</label>
-							<div>
-								<input style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="editstudents.gender" name="strongSecret2"
-								 required><span style="color:red">&nbsp;&#42;</span>
-								<ul class="error-msgs" ng-messages="edit.strongSecret2.$error" ng-if="edit.$submitted || edit.strongSecret2.$dirty">
-									<li ng-show="required2">Please enter into!</li>
-								</ul>
-							</div>
-						</div>
-						<div class="form-group col-xs-12 col-sm-6 col-md-6">
 							<label>Email</label>
-							<div><input style="width:95%; float:left" type="email" class="form-control" id="Email" ng-model="editstudents.email">
-								<span style="color:red">&nbsp;</span>
+							<div><input disabled style="width:95%; float:left" type="email" class="form-control" id="Email" ng-model="student_edit.email">
 							</div>
 						</div>
 						<div class="form-group col-xs-12 col-sm-6 col-md-6">
 							<label>Phone</label>
 							<div>
-								<input style="width:95%; float:left" type="text" name='phone' class="form-control" ng-pattern="/^[0-9]+$/" id="Phone" ng-model="editstudents.phone">
-								<span style="color:red">&nbsp;</span>
-								<ul class="error-msgs" ng-if="add.phone.$dirty && add.phone.$invalid">
-									<li>Please enter into number!</li>
-								</ul>
+								<input disabled style="width:95%; float:left" type="text" name='phone' class="form-control" ng-pattern="/^[0-9]+$/" id="Phone" ng-model="student_edit.phone">
+								
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Username</label>
+							<div>
+								<input disabled style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="student_edit.username" name="strongSecret2"
+								 required>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Gender</label>
+							<div>
+								<input disabled style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="student_edit.gender" name="strongSecret2"
+								 required>
 							</div>
 						</div>
 						<div class="form-group col-xs-12 col-sm-6 col-md-6">
 							<label>Birth Day</label>
 							<div>
-								<input style="width:95%; float:left" type="text" class="form-control" id="datepicker_Edit" ng-model="editstudents.birthday"
+								<input style="width:95%; float:left" type="text" class="form-control" id="datepicker_Edit" ng-model="student_edit.birthday"
 								 name="strongSecret2" ng-pattern="/^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\d\d+$/" required>
 								<span style="color:red">&nbsp;&#42;</span>
 								<ul class="error-msgs" ng-if="add.$submitted || add.strongSecret2.$dirty">
@@ -260,23 +239,9 @@
 							</div>
 						</div>
 						<div class="form-group col-xs-12 col-sm-6 col-md-6">
-							<label>Address</label>
-							<textarea style="width:95%" class="form-control" rows="3" ng-model="editstudents.address"></textarea>
-						</div>
-						<div class="form-group col-xs-12 col-sm-6 col-md-6" ng-directive="strongSecret1">
-							<label>University Name</label>
-							<div>
-								<input style="width:95%; float:left" type="text" class="form-control" name="strongSecret1" id="strongSecret1" ng-model="editstudents.univer_name"
-								 required><span style="color:red">&nbsp;&#42;</span>
-								<ul class="error-msgs">
-									<li ng-show="require2">Please enter into!</li>
-								</ul>
-							</div>
-						</div>
-						<div class="form-group col-xs-12 col-sm-6 col-md-6">
 							<label>Major</label>
 							<div>
-								<input style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="editstudents.major" name="strongSecret2"
+								<input style="width:95%; float:left" type="text" class="form-control" id="First Name" ng-model="student_edit.major" name="strongSecret2"
 								 required><span style="color:red">&nbsp;&#42;</span>
 								<ul class="error-msgs" ng-messages="edit.strongSecret2.$error" ng-if="edit.$submitted || edit.strongSecret2.$dirty">
 									<li ng-show="required2">Please enter into!</li>
@@ -284,25 +249,53 @@
 							</div>
 						</div>
 						<div class="form-group col-xs-12 col-sm-6 col-md-6">
-							<label style="display:block">Select status</label>
-							<form>
-								<label class="radio-inline">
-											<input type="radio"  name ="status_Edit" value="1"  ng-model="editstudents.status" ng-checked="editstudents.status==1">
-											Active
-								</label>
-								<label class="radio-inline">
-											<input type="radio"  name ="status_Edit" value="0" ng-model="editstudents.status" ng-checked="editstudents.status==0">
-											Inactive
-
-								</label>
-							</form>
+							<label>Intake Student</label>
+							<div>
+								<select style="width:95%; float:left" ng-model="student_edit.int_code" class="form-control">
+								 <option value="">--Select Intake--</option>
+								 <option ng-repeat="intake in list_intake" value="{{intake.int_code}}">{{intake.int_code}}</option>
+								</select>
+							</div>
+							<ul class="error-msgs">
+								<li ng-show="student2" style="margin-top: 20px">Please enter into!</li>
+							</ul>
 						</div>
-
-
-
-
-
-
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Status Student</label>
+							<div>
+								<select style="width:95%; float:left" id="select_ss" ng-model="student_edit.id_ss" class="form-control">
+								 <option value="">--Select Status--</option>
+								 <option ng-repeat="status in student_status" value="{{status.id_ss}}">{{status.name_ss}}</option>
+								</select>
+							</div>
+							<ul class="error-msgs">
+								<li ng-show="student3" style="margin-top: 20px">Please enter into!</li>
+							</ul>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6" ng-directive="strongSecret1">
+							<label>University Name</label>
+							<div>
+								<select style="width:95%; float:left" ng-model="student_edit.univer_code" class="form-control">
+								 <option value="">--Select University--</option>
+								 <option ng-repeat="univer in list_university" value="{{univer.univer_code}}">{{univer.univer_name}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Address</label>
+							<textarea disabled style="width:95%" class="form-control" rows="3" ng-model="student_edit.useraddress"></textarea>
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label>Student Profile</label>
+							<div style="max-height:100px; overflow: auto;">
+								<div class="checkbox" ng-repeat="profile in student_profiles">
+									<label> 
+											<input type="checkbox" id="{{profile.id_profile+'1'}}" value="{{profile.id_profile}}"> 
+											{{profile.name_profile}} 
+										</label>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-warning" ng-click="updatestudents()"><span class="glyphicon glyphicon-edit"></span>Update</button>
